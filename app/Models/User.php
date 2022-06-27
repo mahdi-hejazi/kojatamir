@@ -21,8 +21,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'phone'
+        'phone','family'
+
     ];
+    protected $guarded = ['is_repairman','is_admin'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -43,4 +45,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'phone_verified_at' => 'datetime',
     ];
+    /**
+     * @var mixed
+     */
+
+    public function repairman(){
+        if ($this->is_repairman){
+            return $this->hasOne(Repairman::class);
+        }else return null;
+    }
 }

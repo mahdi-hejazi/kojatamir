@@ -9,6 +9,9 @@ class Repairman extends Model
 {
     use HasFactory;
     protected $fillable=['profile_description'];
+    protected $casts = [
+        'images' => 'array'
+    ];
 
     public function repairServices()
     {
@@ -17,5 +20,9 @@ class Repairman extends Model
 
     public function businessLicenses(){
         return $this->hasMany(BusinessLicense::class);
+    }
+
+    public function user(){
+        return $this->hasOne(User::class);
     }
 }

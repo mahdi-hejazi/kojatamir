@@ -12,10 +12,11 @@ class AuthController extends Controller
     public function register(Request $request)
     {
 
-//        return response()->json($request->all());
 
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
+            'family' => 'required|string|max:255',
+            'profile_image' => 'string|max:255|nullable',
             'email' => 'required|string|email|max:255|unique:users',
             'phone' => 'required|string|max:20|unique:users',
             'password' => 'required|string|min:8',
@@ -23,6 +24,7 @@ class AuthController extends Controller
 
         $user = User::create([
             'name' => $validatedData['name'],
+            'family' => $validatedData['family'],
             'email' => $validatedData['email'],
             'phone' => $validatedData['phone'],
             'password' => Hash::make($validatedData['password']),
@@ -45,15 +47,29 @@ class AuthController extends Controller
 
         $user = User::where('email', $request['email'])->firstOrFail();
 
-        $token = $user->createToken('auth_token')->plainTextToken;
+        $user_type= $user->is_rapairman ? 'repairman': 'customer';
+        $user_type= $user->is_admin ? 'admin' : 'customer';
+
+
+        if ($user->is_admin)
+            $token = $user->createToken('auth_token',['is_admin'])->plainTextToken;
+        elseif ($user->is_repairman)
+            $token = $user->createToken('auth_token',['is_admin'])->plainTextToken;
+        else
+            $token = $user->createToken('auth_token')->plainTextToken;
+
 
         return response()->json([
             'access_token' => $token,
             'token_type' => 'Bearer',
+            'user_type' => $user_type
         ]);
     }
     public function me(Request $request)
     {
+        if ($request->user()->tokenCan('is_admin')) {
+            return 'hello';
+        }
         return $request->user();
     }
 }

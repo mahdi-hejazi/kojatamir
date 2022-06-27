@@ -17,13 +17,21 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
-Route::get('/me', [AuthController::class, 'me'])->middleware('auth:sanctum');
+Route::get('/me', [AuthController::class, 'me'])->middleware(['auth:sanctum', 'ability:is_admin']);
 
 Route::prefix('v1')->group(function(){
 
     Route::middleware('auth:sanctum')->group(function (){
 
+        Route::middleware(['auth:sanctum', 'ability:is_admin'])->group(function (){
+
+        });
+        Route::middleware(['auth:sanctum', 'ability:is_repairman , is_admin'])->group(function (){
+
+        });
     });
+
+
 });
 
 
