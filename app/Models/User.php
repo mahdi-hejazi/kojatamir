@@ -54,4 +54,9 @@ class User extends Authenticatable
             return $this->hasOne(Repairman::class);
         }else return null;
     }
+
+    public function addresses(){
+        return $this->hasMany(Address::class);
+    }
+
 }

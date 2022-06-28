@@ -27,6 +27,8 @@ Route::get('provinces/{province}/cities',[\App\Http\Controllers\Api\V1\AddressCo
 Route::prefix('v1')->group(function(){
 
     Route::middleware('auth:sanctum')->group(function (){
+        Route::post('/address/add_address',[\App\Http\Controllers\Api\V1\AddressController::class,'addAddressToUser']);
+        Route::post('/address/get_addresses',[\App\Http\Controllers\Api\V1\AddressController::class,'getAddresses']);
 
         Route::middleware(['auth:sanctum', 'ability:is_admin'])->group(function (){
 

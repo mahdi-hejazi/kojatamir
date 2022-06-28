@@ -20,18 +20,26 @@ make a directory kojatamir<br>
 
 #rest api
 
+all file should have:<br>
+header:{<br>
+accept=application/json <br>
+content_type=application/json <br>
+} <br>
+if need authorization: <br>
+add Authorization="{token_type} {token}"  to request header <br>
+
+
+
+
+
 <h4>login:</h4>
 post
 http://localhost:8000/api/login
-accept=application/json
-content_type=application/json
 json={password,email}
 
 <h4>register:</h4>
 post
 http://localhost:8000/api/register
-accept=application/json
-content_type=application/json
 json={name,family,phone,password,email,profile_image}
 
 <h4>Authorization: </h4>
@@ -44,4 +52,12 @@ http://localhost:8000/api/provinces/
 http://localhost:8000/api/provinces/{province_id}/
 <h6>get all cities of {province_id}:</h6>
 http://localhost:8000/api/provinces/{province_id}/cities
+<h6>make address for ourself (user) </h6>
+localhost:8000/api/v1/address/add_address <br>
+json{city_id,address,postal_code}
+<h6>get all address of ourself:</h6>
+post
+localhost:8000/api/v1/address/get_addresses
+
+
 
