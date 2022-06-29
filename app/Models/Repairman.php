@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Repairman extends Model
 {
     use HasFactory;
-    protected $fillable=['profile_description'];
+    protected $fillable=['profile_description','images'];
     protected $casts = [
         'images' => 'array'
     ];
@@ -23,6 +23,6 @@ class Repairman extends Model
     }
 
     public function user(){
-        return $this->hasOne(User::class);
+        return $this->belongsTo(User::class);
     }
 }

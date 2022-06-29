@@ -67,9 +67,6 @@ class AuthController extends Controller
     }
     public function me(Request $request)
     {
-        if ($request->user()->tokenCan('is_admin')) {
-            return 'hello';
-        }
         return $request->user();
     }
 }

@@ -50,13 +50,14 @@ class User extends Authenticatable
      */
 
     public function repairman(){
-        if ($this->is_repairman){
-            return $this->hasOne(Repairman::class);
-        }else return null;
+        return $this->hasOne(Repairman::class);
     }
 
     public function addresses(){
         return $this->hasMany(Address::class);
     }
+   public function set_is_repairman(){
+        return $this->is_repairman;
+   }
 
 }

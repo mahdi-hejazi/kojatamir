@@ -23,11 +23,11 @@ return new class extends Migration
         });
 
         Schema::create('repair_service_repairman',function (Blueprint $table){
-            $table->unsignedBigInteger('service_id');
-            $table->foreign('service_id')->references('id')->on('repair_services')->onDelete('cascade');
+            $table->unsignedBigInteger('repair_service_id');
+            $table->foreign('repair_service_id')->references('id')->on('repair_services')->onDelete('cascade');
             $table->unsignedBigInteger('repairman_id');
             $table->foreign('repairman_id')->references('id')->on('repairmen')->onDelete('cascade');
-            $table->primary(['service_id','repairman_id']);
+            $table->primary(['repair_service_id','repairman_id']);
         });
     }
 

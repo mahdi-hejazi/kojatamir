@@ -8,6 +8,7 @@
 make a directory kojatamir<br>
 
 1.copy all files in directory kojatamir<br>
+make .env from .env.example and set database<br>
 \#gh repo clone mahdi-hejazi/kojatamir<br>
 
 2.make a mysql db name= kojatamirdb <br>
@@ -58,6 +59,16 @@ json{city_id,address,postal_code}
 <h6>get all address of ourself:</h6>
 post
 localhost:8000/api/v1/address/get_addresses
+
+<h6>add repairman info ourself:</h6>
+post
+localhost:8000/api/v1/repairman/add_repairman_info
+json{
+profile_description,images
+}<br>
+images=image1,image2,image3,... <br>
+
+
 
 
 
