@@ -16,15 +16,22 @@ class RepairmanController extends Controller
     {
         $validatedData = $request->validate([
             'profile_description' => 'required|string',
-            'images' => 'required|string',
             'repair_service_IDs'=> 'required|string'
             ]);
-         $validatedData['images']=explode(',',  $validatedData['images']);
+
+        $getImage = $request->file('images');
+        $imageName = time().'.'.$getImage->extension();
+        $imagePath = public_path(). '/images/repairman_images';
+
+
+        $getImage->move($imagePath, $imageName);
+
+//         $validatedData['images']=explode(',',  $validatedData['images']);
          $validatedData['repair_service_IDs']=explode(',',  $validatedData['repair_service_IDs']);
 
         $request->user()->repairman()->delete();
         $repairma=$request->user()->repairman()->create([
-            'images' =>  json_encode($validatedData['images']),
+            'images' =>  json_encode('/images/repairman_images/'.$imageName),
             'profile_description' => $validatedData['profile_description'],
         ]);
         foreach ($validatedData['repair_service_IDs'] as $service_id){
@@ -36,15 +43,23 @@ class RepairmanController extends Controller
             'message' => 'repairman info add to user',
         ]);
     }
-    public function addLicence(Request $request){
+    public function addLicense(Request $request){
         $validatedData = $request->validate([
-            'image' => 'required|string',
             'description' => 'required|string',
         ]);
-//        $request->user()->repairman()->businessLicenses()->create([
-//            'image' => $validatedData['image'],
-//            'description' => $validatedData['description'],
-//        ]);
+
+
+        $getImage = $request->file('image');
+        $imageName = time().'.'.$getImage->extension();
+        $imagePath = public_path(). '/images/license_images';
+
+
+        $getImage->move($imagePath, $imageName);
+
+        $request->user()->repairman()->businessLicenses()->create([
+            'image' => '/images/license_images/'.$imageName,
+            'description' => $validatedData['description'],
+        ]);
         return response()->json([
             'status' => 'done',
             'message' => 'business licence info add to user',
@@ -79,8 +94,13 @@ class RepairmanController extends Controller
         //we just search for parent
 
 
-        $repairmen=$repairmen->get();
-        return \response()->json([$repairmen]);
+        $repairmen=$repairmen->paginate(20);
+        return \response()->json($repairmen);
 
     }
+
+
+
+
+
 }

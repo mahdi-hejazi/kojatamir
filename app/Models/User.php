@@ -21,7 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'phone','family'
+        'phone','family','profile_image'
 
     ];
     protected $guarded = ['is_repairman','is_admin'];

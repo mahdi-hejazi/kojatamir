@@ -38,6 +38,10 @@ Route::prefix('v1')->group(function(){
 
     });
     Route::prefix('admin')->middleware( ['auth:sanctum','ability:is_admin'])->group(function (){
+        Route::get('/user',[\App\Http\Controllers\Api\V1\Admin\UserController::class,'index']);
+        Route::get('/user/{id}',[\App\Http\Controllers\Api\V1\Admin\UserController::class,'show']);
+        Route::delete('/user/{id}',[\App\Http\Controllers\Api\V1\Admin\UserController::class,'destroy']);
+
         Route::get('repairman/get_repairmen_requests',[\App\Http\Controllers\Api\V1\Admin\RepairmanController::class,'getRepairmenRequests']);
         Route::post('repairman/set_is_repairman',[\App\Http\Controllers\Api\V1\Admin\RepairmanController::class,'setIsRepairman']);
 
@@ -45,7 +49,7 @@ Route::prefix('v1')->group(function(){
         Route::resource('repair_service',\App\Http\Controllers\Api\V1\Admin\RepairServiceController::class)->except('create','edit','show','update','destroy');
     });
     Route::middleware( ['auth:sanctum','ability:is_repairman , is_admin'])->group(function (){
-        Route::post('/repairmen/addLicence',[\App\Http\Controllers\Api\V1\RepairmanController::class,'addLicence']);
+        Route::post('/repairmen/addLicense',[\App\Http\Controllers\Api\V1\RepairmanController::class,'addLicense']);
     });
 
 

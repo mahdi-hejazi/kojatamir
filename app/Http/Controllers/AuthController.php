@@ -16,16 +16,23 @@ class AuthController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'family' => 'required|string|max:255',
-            'profile_image' => 'string|max:255|nullable',
             'email' => 'required|string|email|max:255|unique:users',
             'phone' => 'required|string|max:20|unique:users',
             'password' => 'required|string|min:8',
         ]);
 
+        $getImage = $request->file('profile_image');
+        $imageName = time().'.'.$getImage->extension();
+        $imagePath = public_path(). '/images/user_profiles';
+
+
+        $getImage->move($imagePath, $imageName);
+
         $user = User::create([
             'name' => $validatedData['name'],
             'family' => $validatedData['family'],
             'email' => $validatedData['email'],
+            'profile_image' => '/images/user_profiles/'.$imageName,
             'phone' => $validatedData['phone'],
             'password' => Hash::make($validatedData['password']),
         ]);
